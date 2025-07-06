@@ -1,6 +1,6 @@
 # Mobile Automation Framework
 
-This project is a professional mobile automation framework built using **Appium**, **Java**, and **TestNG**. It is designed for automating Android application testing, providing robust examples and reusable components for scalable test automation.
+A robust, scalable, and professional mobile automation framework for Android applications, built with **Appium**, **Java**, and **TestNG**. This framework provides comprehensive examples, reusable components, and best practices for automating Android app testing on real devices and emulators.
 
 ---
 
@@ -8,6 +8,7 @@ This project is a professional mobile automation framework built using **Appium*
 - [Project Structure](#project-structure)
 - [Setup Instructions](#setup-instructions)
 - [Key Components](#key-components)
+- [Test Organization](#test-organization)
 - [Writing and Running Tests](#writing-and-running-tests)
 - [Reports and Logs](#reports-and-logs)
 - [Best Practices](#best-practices)
@@ -20,25 +21,35 @@ This project is a professional mobile automation framework built using **Appium*
 
 ```
 mobile-automation-framework/
-├── pom.xml                     # Maven configuration file
+├── pom.xml                      # Maven configuration (dependencies, plugins, Java version)
 ├── src/
 │   ├── main/
-│   │   ├── java/               # (Reserved for main Java code, if needed)
-│   │   └── resources/          # (Reserved for main resources)
+│   │   ├── java/
+│   │   │   └── com/             # (Reserved for main Java code, currently empty)
+│   │   └── resources/           # (Reserved for main resources, currently empty)
 │   └── test/
 │       ├── java/
-│       │   ├── android/        # Android-specific test classes
+│       │   ├── android/         # Android-specific test classes (Appium)
 │       │   │   ├── AppiumBasic.java
 │       │   │   ├── BaseTest.java
+│       │   │   ├── DragDropDemo.java
 │       │   │   ├── LongPressTest.java
 │       │   │   ├── MisceallanousAppiumAction.java
 │       │   │   ├── ScrollDemo.java
 │       │   │   └── SwipeDemo.java
-│       │   └── resources/      # Test resources (e.g., APKs)
-│       │       └── ApiDemos-debug.apk
-│       └── resources/          # (Reserved for test resources)
-├── target/                     # Build output (ignored by git)
-└── .gitignore                  # Git ignore rules
+│       │   ├── ecommerce/       # E-commerce app test classes (Appium)
+│       │   │   ├── BaseTest.java
+│       │   │   ├── ecommerce_tc_1.java
+│       │   │   ├── ecommerce_tc_2.java
+│       │   │   └── ecommerce_tc_3.java
+│       │   └── resources/       # Test APKs and resources
+│       │       ├── ApiDemos-debug.apk
+│       │       └── General-Store.apk
+│       └── resources/           # (Reserved for test resources, currently empty)
+├── target/                      # Maven build output (ignored by git)
+│   └── surefire-reports/        # TestNG/Surefire test reports (HTML, XML, etc.)
+├── .gitignore                   # Git ignore rules
+└── README.md                    # Project documentation
 ```
 
 ---
@@ -46,7 +57,7 @@ mobile-automation-framework/
 ## Setup Instructions
 
 1. **Prerequisites:**
-   - Java JDK 8 or above
+   - Java JDK 11 or above
    - Maven
    - Android Studio (for emulator/device management)
    - Appium Server (desktop or CLI)
@@ -75,53 +86,87 @@ mobile-automation-framework/
 ## Key Components
 
 ### 1. `pom.xml`
-- Maven configuration file specifying dependencies (Appium Java client, Selenium, TestNG, etc.).
+- **Dependency Management:**
+  - Appium Java Client
+  - Selenium Java
+  - TestNG
+  - SLF4J (logging)
+- **Plugins:**
+  - Maven Compiler Plugin (Java 11)
+  - Maven Surefire Plugin (TestNG integration)
 
 ### 2. `src/test/java/android/`
-- **AppiumBasic.java**: Basic Appium test example.
-- **BaseTest.java**: Base class for test setup/teardown, driver initialization, and common utilities.
-- **LongPressTest.java**: Demonstrates long-press gesture automation.
-- **ScrollDemo.java**: Shows how to automate scroll actions.
-- **SwipeDemo.java**: Example for swipe gestures.
-- **MisceallanousAppiumAction.java**: Advanced actions (activity launch, clipboard, device keys, etc.).
+- **AppiumBasic.java:** Basic Appium test example (launch, interact, assert).
+- **BaseTest.java:** Common setup/teardown, driver management, and utility methods for Android tests.
+- **DragDropDemo.java:** Demonstrates drag-and-drop gesture automation.
+- **LongPressTest.java:** Automates long-press gesture and context menu validation.
+- **MisceallanousAppiumAction.java:** Advanced actions (activity launch, clipboard, device keys, rotation, etc.).
+- **ScrollDemo.java:** Automates scroll actions using Appium gestures.
+- **SwipeDemo.java:** Demonstrates swipe gestures and validation.
 
-### 3. `src/test/java/resources/`
-- **ApiDemos-debug.apk**: Sample Android app used for testing.
+### 3. `src/test/java/ecommerce/`
+- **BaseTest.java:** Setup/teardown and utilities for e-commerce app tests.
+- **ecommerce_tc_1.java:** Form validation and toast message handling.
+- **ecommerce_tc_2.java:** Product selection, cart operations, and assertions.
+- **ecommerce_tc_3.java:** Cart total calculation, terms acceptance, and checkout flow.
 
-### 4. `target/`
-- Maven build output (ignored by git).
+### 4. `src/test/java/resources/`
+- **ApiDemos-debug.apk:** Sample Android app for UI automation demos.
+- **General-Store.apk:** E-commerce demo app for advanced test scenarios.
 
-### 5. `.gitignore`
-- Specifies files/folders to be ignored by git (build outputs, IDE configs, system files, etc.).
+### 5. `target/surefire-reports/`
+- **Test Reports:**
+  - HTML, XML, and text reports generated by TestNG/Surefire after each run.
+  - Includes summary, detailed results, and logs for each test class.
+
+### 6. `.gitignore`
+- Ignores build outputs, IDE configs, system files, APKs, logs, and generated sources.
+
+---
+
+## Test Organization
+
+- **android/**: Contains generic Android automation examples and advanced Appium actions.
+- **ecommerce/**: Contains end-to-end tests for a sample e-commerce app, including form validation, product selection, cart, and checkout flows.
+- **resources/**: Stores APKs used for testing. Add new APKs here as needed.
 
 ---
 
 ## Writing and Running Tests
 
-- **TestNG** is used as the test runner. Test methods are annotated with `@Test`.
-- To run all tests:
+- **TestNG** is used as the test runner. Annotate test methods with `@Test`.
+- **Run all tests:**
   ```sh
   mvn test
   ```
-- To run a specific test class:
+- **Run a specific test class:**
   ```sh
   mvn -Dtest=android.MisceallanousAppiumAction test
+  mvn -Dtest=ecommerce.ecommerce_tc_1 test
   ```
+- **Test reports** are generated in `target/surefire-reports/` after each run.
 
 ---
 
 ## Reports and Logs
 
-- Test reports are generated in the `target/surefire-reports/` directory after each run.
-- Includes HTML, XML, and text reports for easy analysis.
+- **Location:** `target/surefire-reports/`
+- **Formats:** HTML, XML, and plain text
+- **Contents:**
+  - Test summary and detailed results
+  - Logs and screenshots (if implemented)
+  - Easy navigation for debugging and analysis
 
 ---
 
 ## Best Practices
 - Use the `BaseTest` class for driver management and common setup/teardown.
-- Keep test data and resources organized in the `resources/` folders.
-- Use page object pattern for scalable test code (can be added as the project grows).
-- Keep `.gitignore` updated to avoid committing build outputs or sensitive files.
+- Organize test data and APKs in the `resources/` folder.
+- Use the Page Object Model (POM) for scalable, maintainable test code (recommended for larger projects).
+- Keep `.gitignore` updated to avoid committing build outputs, sensitive files, or large binaries.
+- Write clear, independent, and reusable test methods.
+- Use assertions to validate all critical steps.
+- Clean up driver and services in teardown methods to avoid resource leaks.
 
 ---
 
@@ -129,8 +174,10 @@ mobile-automation-framework/
 - Fork the repository and create a feature branch.
 - Submit a pull request with a clear description of your changes.
 - Ensure all tests pass before submitting.
+- Follow best practices and keep code/documentation clean and up to date.
 
 ---
 
 ## License
+
 This project is licensed under the MIT License. 
