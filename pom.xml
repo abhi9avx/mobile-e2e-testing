@@ -53,6 +53,15 @@
             <version>2.0.12</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-support -->
+            <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-support -->
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-support</artifactId>
+                <version>4.34.0</version>
+            </dependency>
+
     </dependencies>
 
     <dependencyManagement>
