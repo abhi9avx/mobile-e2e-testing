@@ -22,8 +22,8 @@ public class BaseTest {
     @BeforeClass
     public void startAppiumService() {
         service = new AppiumServiceBuilder()
-                .usingDriverExecutable(new File("/opt/homebrew/bin/node"))
-                .withAppiumJS(new File("/opt/homebrew/bin/appium"))
+                .usingDriverExecutable(new File("/opt/homebrew/bin/node"))        // Path to Node
+                .withAppiumJS(new File("/opt/homebrew/bin/appium"))              // Path to Appium
                 .withIPAddress("127.0.0.1")
                 .usingPort(4723)
                 .build();
@@ -33,9 +33,14 @@ public class BaseTest {
     @BeforeMethod
     public void setUp() throws Exception {
         UiAutomator2Options options = new UiAutomator2Options();
-        options.setDeviceName("Pixel_6");  // Match your AVD name
+        options.setDeviceName("Pixel_6");  // Your emulator name
+
+        // Path to APK
         String appPath = System.getProperty("user.dir") + "/src/test/java/resources/General-Store.apk";
         options.setApp(appPath);
+
+        // ✅ Path to the specific ChromeDriver binary (no sudo or brew needed)
+        options.setChromedriverExecutable("/Users/abhinav/Downloads/chromedriver-mac-arm64/chromedriver");
 
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723"), options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
@@ -69,8 +74,6 @@ public class BaseTest {
                 "percent", percent
         ));
     }
-    
-    
 
     @AfterMethod
     public void tearDown() {
