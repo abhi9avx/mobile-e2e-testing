@@ -27,7 +27,7 @@ public class ecommerce_tc_3 extends BaseTest {
         driver.findElement(AppiumBy.id("com.androidsample.generalstore:id/radioMale")).click();
         driver.findElement(AppiumBy.id("com.androidsample.generalstore:id/btnLetsShop")).click();
 
-        Thread.sleep(2000);
+        Thread.sleep(2000); // Wait for product screen to load
 
         // Add first two products to cart
         driver.findElements(AppiumBy.xpath("//android.widget.TextView[@text='ADD TO CART']")).get(0).click();
@@ -36,10 +36,13 @@ public class ecommerce_tc_3 extends BaseTest {
         // Go to cart
         driver.findElement(AppiumBy.id("com.androidsample.generalstore:id/appbar_btn_cart")).click();
 
-        // Wait for cart to load
+        // Optional: short buffer wait before checking toolbar
+        Thread.sleep(1000);
+
+        // Wait for cart page to be displayed using fresh element locator
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.attributeContains(
-                driver.findElement(AppiumBy.id("com.androidsample.generalstore:id/toolbar_title")),
+                AppiumBy.id("com.androidsample.generalstore:id/toolbar_title"),
                 "text", "Cart"
         ));
 
@@ -66,6 +69,6 @@ public class ecommerce_tc_3 extends BaseTest {
         driver.findElement(AppiumBy.className("android.widget.CheckBox")).click();
         driver.findElement(AppiumBy.id("com.androidsample.generalstore:id/btnProceed")).click();
 
-        Thread.sleep(2000);
+        Thread.sleep(4000);
     }
 }
