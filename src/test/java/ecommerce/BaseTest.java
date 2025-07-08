@@ -42,6 +42,7 @@ public class BaseTest {
         // ✅ Path to the specific ChromeDriver binary (no sudo or brew needed)
         options.setChromedriverExecutable("/Users/abhinav/Downloads/chromedriver-mac-arm64/chromedriver");
 
+
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723"), options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
